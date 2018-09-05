@@ -5,7 +5,7 @@
 a,
 a:focus,
 a:hover {
-  color: #f8f9fa; }
+  color: gray; }
 
 /* Custom default button */
 .btn-default,
