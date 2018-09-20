@@ -1,12 +1,13 @@
 /*
  * Globals
  */
-
+@import "header.scss";
+@import "footer.scss";
 /* Links */
 a,
 a:focus,
 a:hover {
-  color: gray;
+  color: purple;
 }
 
 /* Custom default button */
@@ -22,7 +23,6 @@ a:hover {
 /*
  * Base structure
  */
-
 html, body {
   height: 100%;
   background-color: #333;
