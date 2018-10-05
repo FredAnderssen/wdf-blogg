@@ -1,4 +1,11 @@
-//
+
+
+
+
+exports.title = {
+  title: "Human Page"
+}
+
 exports.humans = [{
   id: 0,
   name: "Alice"

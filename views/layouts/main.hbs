@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    {{>head}}
-  </head>
-  <body>
+<head>
+  <title>
+    {{#if title}}
+    {{title}}
+    {{else}}
+    Freddans Blogg
+    {{/if}}
+  </title>
+  {{>head}}
+</head>
+<body>
+  <nav class="header-section navbar is-transparent">
+    {{#>navbar}}
+    Failover Content, please check name on file is correct
+    {{/navbar}}
+  </nav>
+  <section class="index-section">
     {{{body}}}
-  </body>
+  </section>
+  <footer>
+    {{#> footer}}
+    Failover content
+    {{/footer}}
+  </footer>
+</body>
 </html>
