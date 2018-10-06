@@ -1,8 +1,9 @@
-const dummyData = require ('./dummy-data')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
-const app = express()
 const bodyParser = require('body-parser')
+const myDB = require('./database')
+
+const app = express()
 
 app.engine('hbs', expressHandlebars({
   defaultLayout: 'main',
@@ -65,4 +66,5 @@ app.get(
 
 app.listen(8080, function() {
   console.log("Web application up and running, listening on port 8080.")
+  console.log("  ")
 })
