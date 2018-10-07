@@ -44,6 +44,30 @@ function(request, response)
   response.status(200)
 })
 
+app.get("/faqs", function(request, response) {
+  myDB.getAllFaqs(function(error, faqs) {
+    const model = {
+      faqs: faqs
+    }
+    response.render("faqs.hbs", model)
+  })
+})
+
+app.get(
+  '/add-faq',
+function(request, response) {
+  response.render("add-faq.hbs")
+})
+
+app.post("/add-faq", function(request, response) {
+  const question = request.body.question
+  const answer = ""
+  myDB.createFaq(question, answer, function(error)  {
+    response.redirect("/faqs")
+  })
+
+})
+
 app.get(
   '/about',
   function(request, response)
