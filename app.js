@@ -65,7 +65,17 @@ app.post("/add-faq", function(request, response) {
   myDB.createFaq(question, answer, function(error)  {
     response.redirect("/faqs")
   })
+})
 
+app.post('/login', function(request, response) {
+  const username = request.body.username
+  const password = request.body.password
+
+  if (username == "PetterLarsson@kungar.se" && password == "123") {
+    
+  } else {
+
+  }
 })
 
 app.get(

@@ -1,7 +1,10 @@
 const sqlite3 = require('sqlite3')
 const db = new sqlite3.Database('my-database.db')
 
-db.run('CREATE TABLE IF NOT EXISTS faqs (username TEXT PRIMARY KEY NOT NULL UNIQUE, question TEXT NOT NULL, answer TEXT)')
+db.run('CREATE TABLE IF NOT EXISTS faqs (id INTEGER PRIMARY KEY AUTOINCREMENT, question TEXT NOT NULL, answer TEXT)')
+//db.run('ALTER TABLE faqs RENAME TO oldfaqs')
+//db.run('CREATE TABLE faqs (id INTEGER PRIMARY KEY AUTOINCREMENT, question TEXT NOT NULL, answer TEXT)')
+//db.run('DROP TABLE oldfaqs')
 
 exports.createFaq = function(question, answer, callback) {
   const query = "INSERT INTO faqs (question, answer) VALUES (?, ?)"
@@ -10,20 +13,14 @@ exports.createFaq = function(question, answer, callback) {
   db.run(query, values, function(error) {
     callback(error)
   })
-
 }
 
 //inserting rows
 //use place holder ? for the user to put in
-db.run('INSERT INTO faqs (username, question, answer) VALUES ("dragonslayer", "how old are u", "im twentyone")'
-, function(error) {
-  if(error) {
-
-  } else {
-
-    //const id = this.lastID
-  }
-})
+//WORKS
+//const namn = "Atta"
+//const fraga = "INSERT INTO faqs (username, question) VALUES (?, 'are u strong?')"
+//db.run(fraga, [namn])
 
 exports.getAllFaqs = function(callback) {
   const query = "SELECT * FROM faqs"
@@ -32,7 +29,7 @@ exports.getAllFaqs = function(callback) {
   })
 }
 
-//test print TABLE faqs
+//test print TABLE faqs console
 db.serialize(function () {
   db.each('SELECT * FROM faqs', function(err, table) {
     console.log(table)

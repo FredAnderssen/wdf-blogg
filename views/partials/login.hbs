@@ -1,4 +1,4 @@
-<form method="POST" action="http://localhost:8080">
+<form method="POST" action="/login">
   <a class="navbar-link navbar-item" href="/">
     Login here
   </a>
@@ -6,7 +6,7 @@
     <a class="navbar-item">
       <div class="field field-section">
         <p class="control has-icons-left has-icons-right">
-          <input class="input" type="email" placeholder="Email">
+          <input class="input" type="email" placeholder="Email.." name="username">
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -17,7 +17,7 @@
       </div>
       <div class="field field-section">
         <p class="control has-icons-left">
-          <input class="input" type="password" placeholder="Password">
+          <input class="input" type="password" placeholder="Password" name="password">
           <span class="icon is-small is-left">
             <i class="fas fa-lock"></i>
           </span>
@@ -26,7 +26,7 @@
       <div class="field field-section">
         <p class="control">
           <button class="button is-light">
-            Login!
+            Login
           </button>
         </p>
       </div>
