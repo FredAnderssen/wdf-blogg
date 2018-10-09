@@ -1,5 +1,56 @@
-<div class="main-content">
-  hej hej
-  test
-  index hbs
+<div class="hero">
+  <section class="hero is-success is-fullheight ">
+    <div class="hero-body hero-section">
+      <div class="container">
+        <h1 class="title">
+          Freddans Blogg
+        </h1>
+        <h2 class="subtitle">
+          Follow Freddans terrific and exciting adventures
+        </h2>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="blogpost-section">
+
+  <!-- form for GET image from img folder -->
+  <form>
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          {{>images-list}}
+        </div>
+      </div>
+      <div class="media-right">
+        <button class="delete"></button>
+      </div>
+    </article>
+  </form>
+
+  <!--form for INSERTing Image into img folder  -->
+  <!--if ..isLoggedIn, access available  -->
+  <form action="/" method="POST" enctype="multipart/form-data">
+    <div class="file">
+      <label class="file-label">
+        <input class="file-input" type="file" name="photo">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Choose a file…
+          </span>
+        </span>
+      </label>
+      <input type="submit" value="Upload Image" />
+    </div>
+  </form>
+
+  <!-- textarea to leave text under every blogpost -->
+  <form>
+    <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+  </form>
+
+
 </div>

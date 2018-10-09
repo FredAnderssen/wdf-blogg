@@ -4,6 +4,8 @@
 @import "header.scss";
 @import "footer.scss";
 @import "cover.scss";
+@import "sass/utilities/_all.sass";
+
 /* Links */
 a,
 a:focus,
@@ -51,6 +53,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*
 * Contact page
 */
+
+/*
+* Frontpage
+*/
+.hero-section {
+  background-color: $black-bis;
+}
+
+.blogpost-section {
+  height: 1200px;
+}
 
 
 /*

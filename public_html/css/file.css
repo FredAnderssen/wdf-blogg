@@ -4,6 +4,12 @@
 h5 {
   color: yellow; }
 
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(359deg); } }
+
 /* Links */
 a,
 a:focus,
@@ -46,6 +52,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*
 * Contact page
 */
+/*
+* Frontpage
+*/
+.hero-section {
+  background-color: #121212; }
+
+.blogpost-section {
+  height: 1200px; }
+
 /*
 * Header
 */
