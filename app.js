@@ -1,10 +1,10 @@
 const express = require('express')
 const multer = require('multer')
-//TODO ändra folder till img
-var upload = multer({ dest: 'public_html/'})
+
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const myDB = require('./database')
+const fs = require('fs')
 
 const app = express()
 
@@ -37,15 +37,6 @@ function(request, response)
 {
   const username = request.body.un
   const password = request.body.pw
-})
-
-
-//middleware 4, homepage
-app.get('/',
-function(request, response)
-{
-  response.render('./index.hbs')
-  response.status(200)
 })
 
 app.get("/about", function(request, response) {
@@ -105,7 +96,6 @@ app.get(
   * Multer
   **/
   const multerConfig = {
-
     storage: multer.diskStorage({
       destination: function(req, file, next){
         next(null, './public_html/img')
@@ -121,7 +111,21 @@ app.get(
   };
 
   app.post('/',multer(multerConfig).single('photo'),function(req,res){
-     res.send('Complete! Image uploaded to folder')
+    res.send('Complete! Image uploaded to folder')
+    myDB.uploadImageToTable(req, function(error) {
+
+    })
+  })
+
+  app.get('/',
+  function(request, response) {
+    myDB.getImagesFromTable(4, 20, function(error, imageTable) {
+      const model = {
+        imageTable: imageTable
+      }
+      response.render('./index.hbs', model)
+      response.status(200)
+    })
   })
 
 
