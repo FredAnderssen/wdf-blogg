@@ -4,7 +4,9 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const myDB = require('./database')
 const fs = require('fs')
-
+const blogpostHandler = require('./blogpostHandler')
+const galleryHandler = require('./galleryHandler')
+const faqHandler = require('./faqHandler')
 const app = express()
 
 app.engine('hbs', expressHandlebars({
@@ -12,16 +14,13 @@ app.engine('hbs', expressHandlebars({
   extname: '.hbs'
 }))
 
-//middleware 1
-//static files never change
+
 app.use(express.static('public_html'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', express.static(__dirname + '/public'))
 
-//middleware 2
 app.set('partialsDir', 'views/partials/')
 
-//middleware 3
 app.get('/humans',
 function(request, response){
   const model = {
@@ -39,7 +38,7 @@ function(request, response)
 })
 
 app.get("/about", function(request, response) {
-  myDB.getAllFaqs(function(error, faqs) {
+  faqHandler.getAllFaqs(function(error, faqs) {
     const model = {
       faqs: faqs
     }
@@ -56,7 +55,7 @@ app.get(
   app.post("/add-faq", function(request, response) {
     const question = request.body.question
     const answer = ""
-    myDB.createFaq(question, answer, function(error)  {
+    faqHandler.createFaq(question, answer, function(error)  {
       response.redirect("/about")
     })
   })
@@ -92,19 +91,20 @@ app.get(
       response.status(200)
     }
   )
+
   /**
   * Blogpost section
   **/
   app.post('/', function(request, response) {
     const post = request.body.blogpost
     const title = request.body.titlepost
-    myDB.createPost(post, title, function(error) {
+    blogpostHandler.createPost(post, title, function(error) {
       response.redirect('/')
     })
   })
 
   app.get('/', function(request, response) {
-    myDB.getAllPosts(function(error, postTable) {
+    blogpostHandler.getAllPosts(function(error, postTable) {
       const model = {
         postTable: postTable
       }
@@ -112,10 +112,14 @@ app.get(
     })
   })
 
+  app.get('/updatepost', function(request, response) {
+    response.render('updatepost.hbs')
+  })
+
   app.get('/updatepost/:id', function(request, response) {
     const id = request.params.id
 
-    myDB.getPostId(id, function(error, blogpost) {
+    blogpostHandler.getPostId(id, function(error, blogpost) {
       const model = {
         blogpost: blogpost
       }
@@ -128,7 +132,7 @@ app.get(
     const post = request.body.blogpost
     const title = request.body.titlepost
 
-    myDB.updatePost(id, post, title, function(error) {
+    blogpostHandler.updatePost(id, post, title, function(error) {
       response.redirect('/')
     })
   })
@@ -153,13 +157,13 @@ app.get(
 
   app.post('/gallery', multer(multerConfig).single('photo'),function(req,res){
     res.send('Complete! Image uploaded to folder')
-    myDB.uploadImageToTable(req, function(error) {
+    galleryHandler.uploadImageToTable(req, function(error) {
     })
   })
 
   app.get('/gallery',
   function(request, response) {
-    myDB.getImagesFromTable(4, 20, function(error, imageTable) {
+    galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
       const model = {
         imageTable: imageTable
       }
