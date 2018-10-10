@@ -31,11 +31,6 @@ function(request, response){
   response.render("page-humans.hbs", model)
 })
 
-app.get('/', function(request, response) {
-
-  response.render("index.hbs")
-})
-
 app.post('/login',
 function(request, response)
 {
@@ -72,7 +67,9 @@ app.get(
     const password = request.body.password
 
     if (username == "PetterLarsson@kungar.se" && password == "123") {
-      console.log("Successfully logged in TEST")
+      console.log("Successfully logged in")
+
+
     } else {
 
     }
@@ -95,6 +92,46 @@ app.get(
       response.status(200)
     }
   )
+  /**
+  * Blogpost section
+  **/
+  app.post('/', function(request, response) {
+    const post = request.body.blogpost
+    const title = request.body.titlepost
+    myDB.createPost(post, title, function(error) {
+      response.redirect('/')
+    })
+  })
+
+  app.get('/', function(request, response) {
+    myDB.getAllPosts(function(error, postTable) {
+      const model = {
+        postTable: postTable
+      }
+      response.render("index.hbs", model)
+    })
+  })
+
+  app.get('updatepost/:id', function(request, response) {
+    const id = request.params.id
+
+    myDB.getPostId(id, function(error, blogpost) {
+      const model = {
+        blogpost: blogpost
+      }
+      response.render('updatepost.hbs', model)
+    })
+  })
+
+  app.post('updatepost/:id', function(request, response) {
+    const id = request.params.id
+    const post = request.body.blogpost
+    const title = request.body.titlepost
+
+    myDB.updatePost(id, post, title, function(error) {
+      resonse.redirect('/')
+    })
+  })
 
   /**
   * Multer

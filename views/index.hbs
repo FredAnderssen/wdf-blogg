@@ -12,3 +12,35 @@
     </div>
   </section>
 </div>
+<div class="blogpost-section">
+  <article class="media">
+    <div class="media-content">
+      <div class="content">
+        {{>blogposts}}
+      </div>
+    </div>
+    <div class="media-right">
+      <button class="delete"></button>
+    </div>
+  </article>
+
+  <form action="/" method="POST">
+    <article class="media">
+      <div class="media-content">
+        <div class="field">
+          <p class="control">
+            <input class="input is-small" name="titlepost" type="text" placeholder="Write title...">
+            <input class="input is-small" name="blogpost" type="text" placeholder="Write blogpost...">
+          </p>
+        </div>
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <input type="submit" value="Submit post">
+            </div>
+          </div>
+        </nav>
+      </div>
+    </article>
+  </form>
+</div>

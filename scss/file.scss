@@ -10,7 +10,6 @@
 a,
 a:focus,
 a:hover {
-  color: purple;
 
 }
 
@@ -61,6 +60,20 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-color: $black-bis;
 }
 
+.blogpost-section {
+  height: 1500px;
+  li {
+    list-style-type: none;
+    h2 {
+      color: $white-bis;
+    }
+  }
+}
+
+
+/*
+* Gallery page
+*/
 .gallery-section {
   height: 1500px;
 }

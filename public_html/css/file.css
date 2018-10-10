@@ -11,11 +11,6 @@ h5 {
     transform: rotate(359deg); } }
 
 /* Links */
-a,
-a:focus,
-a:hover {
-  color: purple; }
-
 /* Custom default button */
 .btn-default,
 .btn-default:hover,
@@ -58,6 +53,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .hero-section {
   background-color: #121212; }
 
+.blogpost-section {
+  height: 1500px; }
+  .blogpost-section li {
+    list-style-type: none; }
+    .blogpost-section li h2 {
+      color: #fafafa; }
+
+/*
+* Gallery page
+*/
 .gallery-section {
   height: 1500px; }
 
