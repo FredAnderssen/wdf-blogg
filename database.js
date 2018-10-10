@@ -60,3 +60,8 @@ db.serialize(function () {
     console.log(table)
   })
 })
+
+/**
+*Comment blogposts section
+**/
+db.run('CREATE TABLE IF NOT EXISTS commentPosts (id INTEGER PRIMARY KEY AUTOINCREMENT, comment TEXT NOT NULL)')

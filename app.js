@@ -1,6 +1,5 @@
 const express = require('express')
 const multer = require('multer')
-
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const myDB = require('./database')
@@ -30,6 +29,11 @@ function(request, response){
     title: dummyData.title
   }
   response.render("page-humans.hbs", model)
+})
+
+app.get('/', function(request, response) {
+
+  response.render("index.hbs")
 })
 
 app.post('/login',
@@ -110,26 +114,22 @@ app.get(
     //TODO fix so only images can be uploaded
   };
 
-  app.post('/',multer(multerConfig).single('photo'),function(req,res){
+  app.post('/gallery', multer(multerConfig).single('photo'),function(req,res){
     res.send('Complete! Image uploaded to folder')
     myDB.uploadImageToTable(req, function(error) {
-
     })
   })
 
-  app.get('/',
+  app.get('/gallery',
   function(request, response) {
     myDB.getImagesFromTable(4, 20, function(error, imageTable) {
       const model = {
         imageTable: imageTable
       }
-      response.render('./index.hbs', model)
+      response.render('gallery.hbs', model)
       response.status(200)
     })
   })
-
-
-
 
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")
