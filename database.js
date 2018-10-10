@@ -66,7 +66,11 @@ exports.getPostId = function(id, callback) {
 
 exports.updatePost = function(id, newPost, newTitle, callback) {
   const query = 'UPDATE postTable SET comment = ?, title = ? WHERE id = ?'
-  const values = [id, newPost, newTitle]
+  const values = [newPost, newTitle, id]
+
+  console.log(id)
+  console.log(newPost)
+  console.log(newTitle)
 
   db.run(query, values, function(error) {
     callback(error)

@@ -112,7 +112,7 @@ app.get(
     })
   })
 
-  app.get('updatepost/:id', function(request, response) {
+  app.get('/updatepost/:id', function(request, response) {
     const id = request.params.id
 
     myDB.getPostId(id, function(error, blogpost) {
@@ -123,13 +123,13 @@ app.get(
     })
   })
 
-  app.post('updatepost/:id', function(request, response) {
+  app.post('/updatepost/:id', function(request, response) {
     const id = request.params.id
     const post = request.body.blogpost
     const title = request.body.titlepost
 
     myDB.updatePost(id, post, title, function(error) {
-      resonse.redirect('/')
+      response.redirect('/')
     })
   })
 

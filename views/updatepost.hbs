@@ -1,1 +1,13 @@
-<h1>Update Post </h1>
+<h1>Update Post tjajajajjaja</h1>
+
+<p>The id of the post: {{blogpost.id}}</p>
+
+<form action="/updatepost/{{blogpost.id}}" method="POST">
+  <div>
+    titlepost: <input type="text" name="titlepost" value="{{blogpost.title}}" >
+  </div>
+  <div>
+    blogpost: <input type="text" name="blogpost" value="{{blogpost.comment}}">
+  </div>
+  <input type="submit" value="Save Changes" >
+</form>
