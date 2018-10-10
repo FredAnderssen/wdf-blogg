@@ -14,7 +14,6 @@ app.engine('hbs', expressHandlebars({
   extname: '.hbs'
 }))
 
-
 app.use(express.static('public_html'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', express.static(__dirname + '/public'))
@@ -133,6 +132,14 @@ app.get(
     const title = request.body.titlepost
 
     blogpostHandler.updatePost(id, post, title, function(error) {
+      response.redirect('/')
+    })
+  })
+
+  app.get('/deletepost/:id', function(request, response) {
+    const id = request.params.id
+
+    blogpostHandler.deletePost(id, function(error) {
       response.redirect('/')
     })
   })

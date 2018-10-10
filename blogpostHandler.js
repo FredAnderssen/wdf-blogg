@@ -35,11 +35,16 @@ exports.updatePost = function(id, newPost, newTitle, callback) {
   const query = 'UPDATE postTable SET comment = ?, title = ? WHERE id = ?'
   const values = [newPost, newTitle, id]
 
-  console.log(id)
-  console.log(newPost)
-  console.log(newTitle)
-
   db.run(query, values, function(error) {
+    callback(error)
+  })
+}
+
+exports.deletePost = function(id, callback) {
+  const query = 'DELETE FROM postTable WHERE id = ?'
+  const value = [id]
+
+  db.run(query, value, function(error) {
     callback(error)
   })
 }
