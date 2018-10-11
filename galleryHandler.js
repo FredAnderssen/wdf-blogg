@@ -1,5 +1,6 @@
 const database = require('./database')
 const db = database.db
+const fs = require('fs')
 
 db.run('CREATE TABLE IF NOT EXISTS imageTable (id INTEGER PRIMARY KEY AUTOINCREMENT, imageName TEXT NOT NULL, fileExt TEXT NOT NULL)')
 
@@ -40,6 +41,22 @@ exports.updateImage = function(request, id, callback) {
 
   db.run(query, values, function(error) {
     callback(error)
+  })
+}
+
+exports.deleteImage = function(id, callback) {
+  const query = 'SELECT imageName, fileExt FROM imageTable WHERE id = ?'
+
+  db.get(query, [id], function(error, image) {
+    var filepath = "./public_html/img/" + image.imageName
+
+    fs.unlink(filepath, function(error) {
+      const query2 = 'DELETE from imageTable WHERE id = ?'
+
+      db.run(query2, [id], function(error) {
+        callback(error)
+      })
+    })
   })
 }
 

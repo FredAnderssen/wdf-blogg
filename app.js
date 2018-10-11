@@ -227,6 +227,17 @@ app.get(
     })
   })
 
+  app.get('/deletegallery/:id', function(request, response) {
+    const id = request.params.id
+
+    galleryHandler.deleteImage(id, function(error) {
+      response.redirect('/')
+    })
+
+  })
+
+
+
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")
     console.log("  ")
