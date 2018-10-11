@@ -4,9 +4,12 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const myDB = require('./database')
 const fs = require('fs')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const blogpostHandler = require('./blogpostHandler')
 const galleryHandler = require('./galleryHandler')
 const faqHandler = require('./faqHandler')
+
 const app = express()
 
 app.engine('hbs', expressHandlebars({
@@ -17,24 +20,34 @@ app.engine('hbs', expressHandlebars({
 app.use(express.static('public_html'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', express.static(__dirname + '/public'))
+app.use(cookieParser())
+
+/**
+* Cookie and Sessions
+**/
+
+app.use(session({
+  saveUninitialized: false,
+  resave: false,
+  secret: 'ahsgahsfq'
+}))
+
+//Create cookie
+app.get('/create-cookie', function(request, response) {
+  response.cookie("lastVisited", Date.now())
+  //...
+})
+
+//Read cookie
+app.get('/read-cookie', function(request, response) {
+  const lastVisited = parseInt(request.cookies.lastVisit)
+  //...
+})
+
+/*******
+*******/
 
 app.set('partialsDir', 'views/partials/')
-
-app.get('/humans',
-function(request, response){
-  const model = {
-    humans: dummyData.humans,
-    title: dummyData.title
-  }
-  response.render("page-humans.hbs", model)
-})
-
-app.post('/login',
-function(request, response)
-{
-  const username = request.body.un
-  const password = request.body.pw
-})
 
 app.get("/about", function(request, response) {
   faqHandler.getAllFaqs(function(error, faqs) {
@@ -64,12 +77,14 @@ app.get(
     const username = request.body.username
     const password = request.body.password
 
-    if (username == "PetterLarsson@kungar.se" && password == "123") {
+    //TODO error checks inputs
+    if (username == "abc@com" && password == "123") {
+      request.session.isLoggedIn = true
       console.log("Successfully logged in")
-
+      response.redirect("/")
 
     } else {
-
+      console.log("login attempt failed")
     }
   })
 
@@ -103,9 +118,12 @@ app.get(
   })
 
   app.get('/', function(request, response) {
+
+    const isLoggedIn = request.session.isLoggedIn
     blogpostHandler.getAllPosts(function(error, postTable) {
       const model = {
-        postTable: postTable
+        postTable: postTable,
+        isLoggedIn: isLoggedIn
       }
       response.render("index.hbs", model)
     })
@@ -117,10 +135,12 @@ app.get(
 
   app.get('/updatepost/:id', function(request, response) {
     const id = request.params.id
-
+    //TODO if u are loggedin
+    const blogposttest = true
     blogpostHandler.getPostId(id, function(error, blogpost) {
       const model = {
-        blogpost: blogpost
+        blogpost: blogpost,
+        blogposttest: blogposttest
       }
       response.render('updatepost.hbs', model)
     })
@@ -162,22 +182,50 @@ app.get(
     //TODO fix so only images can be uploaded
   };
 
-  app.post('/gallery', multer(multerConfig).single('photo'),function(req,res){
-    res.send('Complete! Image uploaded to folder')
-    galleryHandler.uploadImageToTable(req, function(error) {
-    })
+  app.post('/gallery', multer(multerConfig).single('photo'), function(req,res){
+
+    if(req.session.token == req.body.token) {
+      res.send('Complete! Image uploaded to folder')
+      galleryHandler.uploadImageToTable(req, function(error) {
+      })
+    }
+    else {
+      res.redirect('/about')
+    }
   })
 
   app.get('/gallery',
   function(request, response) {
+    request.session.token = Math.random()
+
     galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
       const model = {
-        imageTable: imageTable
+        imageTable: imageTable,
+        token: request.session.token
       }
       response.render('gallery.hbs', model)
       response.status(200)
     })
   })
+
+  // app.get('/updategallery/:id', function(request, response) {
+  //   const id = request.params.id
+  //
+  //   galleryHandler.getImageId(id, function(error, imageTable) {
+  //     const model = {
+  //       imageTable: imageTable
+  //     }
+  //     response.render('updategallery.hbs', model)
+  //   })
+  // })
+  //
+  // app.post('/updategallery/:id', multer(multerConfig).single('photo'), function(request, response) {
+  //   const id = request.params.id
+  //
+  //   galleryHandler.updateImage(id, function(error) {
+  //     response.redirect('/')
+  //   })
+  // })
 
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")

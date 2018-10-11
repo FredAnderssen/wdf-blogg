@@ -14,6 +14,7 @@
   </form>
   <!--TODO if ..isLoggedIn, access available  -->
   <form action="/gallery" method="POST" enctype="multipart/form-data">
+    <input type="hidden" value="{{token}}" name="token">
     <div class="file">
       <label class="file-label">
         <input class="file-input" type="file" name="photo">

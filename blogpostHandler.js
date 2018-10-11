@@ -1,4 +1,5 @@
 const database = require('./database')
+const errHandler = require('./errorHandler')
 const db = database.db
 
 db.run('CREATE TABLE IF NOT EXISTS postTable (id INTEGER PRIMARY KEY AUTOINCREMENT, comment TEXT NOT NULL, title TEXT NOT NULL)')
@@ -6,6 +7,8 @@ db.run('CREATE TABLE IF NOT EXISTS postTable (id INTEGER PRIMARY KEY AUTOINCREME
 exports.createPost = function(post, title, callback) {
   const query = 'INSERT INTO postTable (comment, title) VALUES (?, ?)'
   const values = [post, title]
+
+  //errHandler.printTest(callback)
 
   db.run(query, values, function(error) {
     callback(error)

@@ -23,6 +23,26 @@ exports.getImagesFromTable = function(startIx, endIx, callback) {
   })
 }
 
+// exports.getImageId = function(id, callback) {
+//   const query = 'SELECT * FROM imageTable WHERE id = ?'
+//
+//   db.get(query, [id], function(error, imageTable) {
+//     callback(error, imageTable)
+//   })
+// }
+//
+// exports.updateImage = function(id, newPost, newTitle, callback) {
+//   const name = request.file.filename
+//   const ext =  request.file.mimetype.replace("image/", "")
+//
+//   const query = 'UPDATE postTable SET imageName = ?, fileExt = ? WHERE id = ?'
+//   const values = [name, ext, id]
+//
+//   db.run(query, values, function(error) {
+//     callback(error)
+//   })
+// }
+
 db.serialize(function () {
   db.each('SELECT * FROM imageTable', function(err, table) {
     console.log(table)
