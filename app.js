@@ -208,24 +208,24 @@ app.get(
     })
   })
 
-  // app.get('/updategallery/:id', function(request, response) {
-  //   const id = request.params.id
-  //
-  //   galleryHandler.getImageId(id, function(error, imageTable) {
-  //     const model = {
-  //       imageTable: imageTable
-  //     }
-  //     response.render('updategallery.hbs', model)
-  //   })
-  // })
-  //
-  // app.post('/updategallery/:id', multer(multerConfig).single('photo'), function(request, response) {
-  //   const id = request.params.id
-  //
-  //   galleryHandler.updateImage(id, function(error) {
-  //     response.redirect('/')
-  //   })
-  // })
+   app.get('/updategallery/:id', function(request, response) {
+    const id = request.params.id
+
+    galleryHandler.getImageId(id, function(error, imageTable) {
+      const model = {
+        imageTable: imageTable
+      }
+      response.render('updategallery.hbs', model)
+    })
+  })
+
+  app.post('/updategallery/:id', multer(multerConfig).single('photo'), function(request, response) {
+    const id = request.params.id
+
+    galleryHandler.updateImage(request, id, function(error) {
+      response.redirect('/')
+    })
+  })
 
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")
