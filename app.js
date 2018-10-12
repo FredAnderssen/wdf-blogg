@@ -32,6 +32,9 @@ app.use(session({
   secret: 'ahsgahsfq'
 }))
 
+const blogpostRouter = require('./blogpostRouter')
+app.use('/blogpost', blogpostRouter)
+
 //Create cookie
 app.get('/create-cookie', function(request, response) {
   response.cookie("lastVisited", Date.now())
@@ -109,13 +112,6 @@ app.get(
   /**
   * Blogpost section
   **/
-  app.post('/', function(request, response) {
-    const post = request.body.blogpost
-    const title = request.body.titlepost
-    blogpostHandler.createPost(post, title, function(error) {
-      response.redirect('/')
-    })
-  })
 
   app.get('/', function(request, response) {
 
@@ -126,41 +122,6 @@ app.get(
         isLoggedIn: isLoggedIn
       }
       response.render("index.hbs", model)
-    })
-  })
-
-  app.get('/updatepost', function(request, response) {
-    response.render('updatepost.hbs')
-  })
-
-  app.get('/updatepost/:id', function(request, response) {
-    const id = request.params.id
-    //TODO if u are loggedin
-    const blogposttest = true
-    blogpostHandler.getPostId(id, function(error, blogpost) {
-      const model = {
-        blogpost: blogpost,
-        blogposttest: blogposttest
-      }
-      response.render('updatepost.hbs', model)
-    })
-  })
-
-  app.post('/updatepost/:id', function(request, response) {
-    const id = request.params.id
-    const post = request.body.blogpost
-    const title = request.body.titlepost
-
-    blogpostHandler.updatePost(id, post, title, function(error) {
-      response.redirect('/')
-    })
-  })
-
-  app.get('/deletepost/:id', function(request, response) {
-    const id = request.params.id
-
-    blogpostHandler.deletePost(id, function(error) {
-      response.redirect('/')
     })
   })
 

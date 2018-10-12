@@ -12,6 +12,7 @@
     </div>
   </section>
 </div>
+
 <div class="blogpost-section">
   <article class="media">
     <div class="media-content">
@@ -19,13 +20,10 @@
         {{>blogposts}}
       </div>
     </div>
-    <div class="media-right">
-      <button class="delete"></button>
-    </div>
   </article>
 
-{{#if isLoggedIn}}
-  <form action="/" method="POST">
+  {{#if isLoggedIn}}
+  <form action="/blogpost/createpost" method="POST">
     <article class="media">
       <div class="media-content">
         <div class="field">
@@ -44,6 +42,6 @@
       </div>
     </article>
   </form>
-{{/if}}
+  {{/if}}
 
 </div>
