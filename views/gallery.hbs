@@ -1,25 +1,23 @@
 <div class="gallery-section">
   <!-- TODO form for DELETE image from img folder -->
-  <form>
-    <article class="media">
-      <div class="media-content">
-        <div class="content columns is-multiline">
-          {{> imageslist}}
-        </div>
+
+  <article class="media">
+    <div class="media-content">
+      <div class="content columns is-multiline">
+        {{> imageslist}}
       </div>
-      <div class="media-right">
-        <button class="delete"></button>
-      </div>
-    </article>
-  </form>
+    </div>
+  </article>
+
 
 
   <!--TODO if ..isLoggedIn, access available  -->
+  {{#if isLoggedIn}}
   <form action="/gallery" method="POST" enctype="multipart/form-data">
     <input type="hidden" value="{{token}}" name="token">
     <div class="file">
       <label class="file-label">
-        <input class="file-input" type="file" name="photo">
+        <input class="file-input" name="photo">
         <span class="file-cta">
           <span class="file-icon">
             <i class="fas fa-upload"></i>
@@ -32,4 +30,5 @@
       <input type="submit" value="Upload Image" />
     </div>
   </form>
+  {{/if}}
 </div>

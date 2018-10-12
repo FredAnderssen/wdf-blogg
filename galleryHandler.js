@@ -49,7 +49,7 @@ exports.deleteImage = function(id, callback) {
 
   db.get(query, [id], function(error, image) {
     var filepath = "./public_html/img/" + image.imageName
-
+    console.log(filepath)
     fs.unlink(filepath, function(error) {
       const query2 = 'DELETE from imageTable WHERE id = ?'
 

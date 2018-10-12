@@ -1,16 +1,16 @@
-
 {{#each imageTable}}
-
-  <div class="column is-4">
-    <div>
-      <img class="image is-64x64" src="img/{{imageName}}"/>
-    </div>
-    <div>
-      <a class="delete" href="/gallery/deletegallery/{{id}}"></a>
-    </div>
-    <div>
-      <a class"button" href="/gallery/updategallery/{{id}}"> Update Image </a>
-    </div>
+<div class="column is-4">
+  <div>
+    <img class="image is-64x64" src="img/{{imageName}}"/>
   </div>
 
+{{#if ../isLoggedIn}}
+  <div>
+    <a  class="delete" href="/gallery/deletegallery/{{id}}"></a>
+  </div>
+  <div>
+    <a class"button" href="/gallery/updategallery/{{id}}"> Update Image </a>
+  </div>
+{{/if}}
+</div>
 {{/each}}

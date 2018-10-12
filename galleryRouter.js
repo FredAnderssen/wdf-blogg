@@ -38,9 +38,12 @@ router.post('/', multer(multerConfig).single('photo'), function(req,res){
 router.get('/',
 function(request, response) {
   request.session.token = Math.random()
+  const isLoggedIn = request.session.isLoggedIn
+
 
   galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
     const model = {
+      isLoggedIn: isLoggedIn,
       imageTable: imageTable,
       token: request.session.token
     }
