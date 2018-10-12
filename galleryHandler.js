@@ -15,7 +15,7 @@ exports.uploadImageToTable = function(request, callback) {
 }
 
 exports.getImagesFromTable = function(startIx, endIx, callback) {
-  const query = 'SELECT imageName, fileExt FROM imageTable WHERE id >= ? LIMIT ?'
+  const query = 'SELECT imageName, fileExt, id FROM imageTable WHERE id >= ? LIMIT ?'
   db.all(query, [startIx, endIx], function(error, imageTable) {
     if(error) {
       console.log(error)

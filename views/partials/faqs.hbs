@@ -2,10 +2,19 @@
 
 <ul>
 	{{#each faqs}}
+	<form action="/about" method="GET">
 		<li>
-      <div>{{username}}</div>
 			<div>{{question}}</div>
 			<div>{{answer}}</div>
+
+			<!-- TODO if logged in u should see this -->
+			<div class="media-right">
+				<a class="delete" href="/about/faq/delete-faq/{{id}}" ></a>
+			</div>
+			<div class="media-right">
+				<a class="button" href="/about/faq/update-answer/{{id}}" >Update</a>
+			</div>
 		</li>
+	</form>
 	{{/each}}
 </ul>

@@ -1,0 +1,13 @@
+<h2> FaQ Panel for Admin</h2>
+
+<p>The id of the FaQ: {{faqs.id}}</p>
+
+<form action="/about/faq/update-answer/{{faqs.id}}" method="POST">
+	<div>
+		Question: <input type="text" name="question" value="{{faqs.question}}">
+	</div>
+	<div>
+		Answer: <input type="text" name="answer" value="{{faqs.answer}}">
+	</div>
+	<input type="submit" value="Save">
+</form>

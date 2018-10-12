@@ -3,7 +3,7 @@
   <form>
     <article class="media">
       <div class="media-content">
-        <div class="content">
+        <div class="content columns is-multiline">
           {{> imageslist}}
         </div>
       </div>
@@ -12,6 +12,8 @@
       </div>
     </article>
   </form>
+
+
   <!--TODO if ..isLoggedIn, access available  -->
   <form action="/gallery" method="POST" enctype="multipart/form-data">
     <input type="hidden" value="{{token}}" name="token">

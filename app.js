@@ -32,9 +32,6 @@ app.use(session({
   secret: 'ahsgahsfq'
 }))
 
-const blogpostRouter = require('./blogpostRouter')
-app.use('/blogpost', blogpostRouter)
-
 //Create cookie
 app.get('/create-cookie', function(request, response) {
   response.cookie("lastVisited", Date.now())
@@ -50,6 +47,15 @@ app.get('/read-cookie', function(request, response) {
 /*******
 *******/
 
+const blogpostRouter = require('./blogpostRouter')
+app.use('/blogpost', blogpostRouter)
+
+const galleryRouter = require('./galleryRouter')
+app.use('/gallery', galleryRouter)
+
+const faqRouter = require('./faqRouter')
+app.use('/about/faq', faqRouter)
+
 app.set('partialsDir', 'views/partials/')
 
 app.get("/about", function(request, response) {
@@ -60,20 +66,6 @@ app.get("/about", function(request, response) {
     response.render("about.hbs", model)
   })
 })
-
-app.get(
-  '/add-faq',
-  function(request, response) {
-    response.render("add-faq.hbs")
-  })
-
-  app.post("/add-faq", function(request, response) {
-    const question = request.body.question
-    const answer = ""
-    faqHandler.createFaq(question, answer, function(error)  {
-      response.redirect("/about")
-    })
-  })
 
   //TODO implement authentication to answer faqs and comment blogposts
   app.post('/login', function(request, response) {
@@ -88,17 +80,10 @@ app.get(
 
     } else {
       console.log("login attempt failed")
+      response.redirect("/")
+
     }
   })
-
-  app.get(
-    '/about',
-    function(request, response)
-    {
-      response.render('about.hbs')
-      response.status(200)
-    }
-  )
 
   app.get(
     '/contact',
@@ -108,10 +93,6 @@ app.get(
       response.status(200)
     }
   )
-
-  /**
-  * Blogpost section
-  **/
 
   app.get('/', function(request, response) {
 
@@ -124,80 +105,6 @@ app.get(
       response.render("index.hbs", model)
     })
   })
-
-  /**
-  * Multer
-  **/
-  const multerConfig = {
-    storage: multer.diskStorage({
-      destination: function(req, file, next){
-        next(null, './public_html/img')
-      },
-
-      filename: function(req, file, next){
-        console.log(file)
-        const ext = file.mimetype.split('/')[1]
-        next(null, file.fieldname + '-' + Date.now() + '.'+ext)
-      }
-    }),
-    //TODO fix so only images can be uploaded
-  };
-
-  app.post('/gallery', multer(multerConfig).single('photo'), function(req,res){
-
-    if(req.session.token == req.body.token) {
-      res.send('Complete! Image uploaded to folder')
-      galleryHandler.uploadImageToTable(req, function(error) {
-      })
-    }
-    else {
-      res.redirect('/about')
-    }
-  })
-
-  app.get('/gallery',
-  function(request, response) {
-    request.session.token = Math.random()
-
-    galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
-      const model = {
-        imageTable: imageTable,
-        token: request.session.token
-      }
-      response.render('gallery.hbs', model)
-      response.status(200)
-    })
-  })
-
-   app.get('/updategallery/:id', function(request, response) {
-    const id = request.params.id
-
-    galleryHandler.getImageId(id, function(error, imageTable) {
-      const model = {
-        imageTable: imageTable
-      }
-      response.render('updategallery.hbs', model)
-    })
-  })
-
-  app.post('/updategallery/:id', multer(multerConfig).single('photo'), function(request, response) {
-    const id = request.params.id
-
-    galleryHandler.updateImage(request, id, function(error) {
-      response.redirect('/')
-    })
-  })
-
-  app.get('/deletegallery/:id', function(request, response) {
-    const id = request.params.id
-
-    galleryHandler.deleteImage(id, function(error) {
-      response.redirect('/')
-    })
-
-  })
-
-
 
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")
