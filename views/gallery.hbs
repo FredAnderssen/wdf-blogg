@@ -1,6 +1,4 @@
 <div class="gallery-section">
-  <!-- TODO form for DELETE image from img folder -->
-
   <article class="media">
     <div class="media-content">
       <div class="content columns is-multiline">
@@ -8,9 +6,8 @@
       </div>
     </div>
   </article>
-
-
-{{#if isLoggedIn}}
+  
+  {{#if isLoggedIn}}
   <form action="/gallery" method="POST" enctype="multipart/form-data">
     <input type="hidden" value="{{token}}" name="token">
     <div class="file">
@@ -28,5 +25,5 @@
       <input type="submit" value="Upload Image" />
     </div>
   </form>
-{{/if}}
+  {{/if}}
 </div>

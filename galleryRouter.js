@@ -4,7 +4,6 @@ const multer = require('multer')
 
 var router = express.Router()
 
-
 /**
 * Multer
 **/
@@ -38,7 +37,6 @@ router.get('/',
 function(request, response) {
   request.session.token = Math.random()
   const isLoggedIn = request.session.isLoggedIn
-
 
   galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
     const model = {

@@ -33,20 +33,9 @@ app.use(session({
   secret: 'ahsgahsfq'
 }))
 
-//Create cookie
-app.get('/create-cookie', function(request, response) {
-  response.cookie("lastVisited", Date.now())
-  //...
-})
-
-//Read cookie
-app.get('/read-cookie', function(request, response) {
-  const lastVisited = parseInt(request.cookies.lastVisit)
-  //...
-})
-
-/*******
-*******/
+/**
+* Routers
+**/
 
 const blogpostRouter = require('./blogpostRouter')
 app.use('/blogpost', blogpostRouter)
@@ -61,30 +50,31 @@ app.set('partialsDir', 'views/partials/')
 
 app.get("/about", function(request, response) {
   const isLoggedIn = request.session.isLoggedIn
+  request.session.token = Math.random()
 
   faqHandler.getAllFaqs(function(error, faqs) {
     const model = {
       faqs: faqs,
-      isLoggedIn: isLoggedIn
+      isLoggedIn: isLoggedIn,
+      token: request.session.token
     }
     response.render("about.hbs", model)
   })
 })
 
-  //TODO implement authentication to answer faqs and comment blogposts
-  app.post('/login', function(request, response) {
-    const username = request.body.username
-    const password = request.body.password
+//TODO implement authentication to answer faqs and comment blogposts
+app.post('/login', function(request, response) {
+  const username = request.body.username
+  const password = request.body.password
 
-    //TODO error checks inputs
-    if (username == "abc@com" && bcrypt.compareSync(password,
-      "$2b$10$ohyAZoU4gmAvbF2PeLZzYObWLBlLjY5mvS.frjmUkMrpN.RElF7rS")) {
+  if (username == "abc@com" && bcrypt.compareSync(password,
+    "$2b$10$ohyAZoU4gmAvbF2PeLZzYObWLBlLjY5mvS.frjmUkMrpN.RElF7rS")) {
       request.session.isLoggedIn = true
       console.log("Successfully logged in")
       response.redirect("/")
 
     } else {
-      console.log("login attempt failed")
+      console.log("Login attempt failed")
       response.redirect("/")
     }
   })
@@ -104,12 +94,14 @@ app.get("/about", function(request, response) {
   )
 
   app.get('/', function(request, response) {
-
     const isLoggedIn = request.session.isLoggedIn
+    request.session.token = Math.random()
+
     blogpostHandler.getAllPosts(function(error, postTable) {
       const model = {
         postTable: postTable,
-        isLoggedIn: isLoggedIn
+        isLoggedIn: isLoggedIn,
+        token: request.session.token
       }
       response.render("index.hbs", model)
     })

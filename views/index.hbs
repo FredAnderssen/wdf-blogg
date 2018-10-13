@@ -24,6 +24,7 @@
 
   {{#if isLoggedIn}}
   <form action="/blogpost/createpost" method="POST">
+    <input type="hidden" value="{{token}}" name="token">
     <article class="media">
       <div class="media-content">
         <div class="field">

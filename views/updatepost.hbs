@@ -4,6 +4,7 @@
 
 
 <form action="/blogpost/updatepost/{{blogpost.id}}" method="POST">
+  <input type="hidden" value="{{token}}" name="token">
   <div>
     titlepost: <input type="text" name="titlepost" value="{{blogpost.title}}" >
   </div>

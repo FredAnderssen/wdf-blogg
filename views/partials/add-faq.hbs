@@ -1,6 +1,7 @@
 <hr>
 <h1> Add a question to my FaQ  </h1>
 <form action="/about/faq/add-faq" method="POST">
+  <input type="hidden" value="{{token}}" name="token1" >
   <div>
     <h3>Write a question here:</h3>
      <input class="input is-small" type="text" placeholder="Question.." name="question">
