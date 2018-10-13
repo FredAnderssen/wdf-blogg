@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const blogpostHandler = require('./blogpostHandler')
 const galleryHandler = require('./galleryHandler')
 const faqHandler = require('./faqHandler')
+const bcrypt = require('bcrypt')
 
 const app = express()
 
@@ -59,9 +60,12 @@ app.use('/about/faq', faqRouter)
 app.set('partialsDir', 'views/partials/')
 
 app.get("/about", function(request, response) {
+  const isLoggedIn = request.session.isLoggedIn
+
   faqHandler.getAllFaqs(function(error, faqs) {
     const model = {
-      faqs: faqs
+      faqs: faqs,
+      isLoggedIn: isLoggedIn
     }
     response.render("about.hbs", model)
   })
@@ -73,7 +77,8 @@ app.get("/about", function(request, response) {
     const password = request.body.password
 
     //TODO error checks inputs
-    if (username == "abc@com" && password == "123") {
+    if (username == "abc@com" && bcrypt.compareSync(password,
+      "$2b$10$ohyAZoU4gmAvbF2PeLZzYObWLBlLjY5mvS.frjmUkMrpN.RElF7rS")) {
       request.session.isLoggedIn = true
       console.log("Successfully logged in")
       response.redirect("/")
@@ -81,8 +86,12 @@ app.get("/about", function(request, response) {
     } else {
       console.log("login attempt failed")
       response.redirect("/")
-
     }
+  })
+
+  app.post('/logut', function(request, response) {
+    request.session.isLoggedIn = false
+    response.redirect('/')
   })
 
   app.get(

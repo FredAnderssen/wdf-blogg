@@ -10,15 +10,18 @@
         <p>
           {{comment}}
         </p>
+
+        {{#if ../isLoggedIn}}
         <div class="media-right">
           <a class="delete" href="/blogpost/deletepost/{{id}}" ></a>
         </div>
         <div class="media-right">
           <a class="button" href="/blogpost/updatepost/{{id}}" >Update</a>
         </div>
+        {{/if}}
+          <hr >
       </div>
     </li>
   </form>
-
   {{/each}}
 </ul>

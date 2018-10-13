@@ -4,16 +4,19 @@
 	{{#each faqs}}
 	<form action="/about" method="GET">
 		<li>
+			<hr>
 			<div>{{question}}</div>
 			<div>{{answer}}</div>
 
 			<!-- TODO if logged in u should see this -->
+			{{#if ../isLoggedIn}}
 			<div class="media-right">
 				<a class="delete" href="/about/faq/delete-faq/{{id}}" ></a>
 			</div>
 			<div class="media-right">
 				<a class="button" href="/about/faq/update-answer/{{id}}" >Update</a>
 			</div>
+			{{/if}}
 		</li>
 	</form>
 	{{/each}}

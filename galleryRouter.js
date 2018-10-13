@@ -24,7 +24,6 @@ const multerConfig = {
 };
 
 router.post('/', multer(multerConfig).single('photo'), function(req,res){
-
   if(req.session.token == req.body.token) {
     res.send('Complete! Image uploaded to folder')
     galleryHandler.uploadImageToTable(req, function(error) {

@@ -4,7 +4,6 @@ const faqHandler = require('./faqHandler')
 var router = express.Router()
 
 router.get('/add-faq', function(request, response) {
-  console.log("IM IN /about/faq/add-faq middleware")
   response.redirect("/about")
 })
 
