@@ -20,39 +20,47 @@ router.post("/add-faq", function(request, response) {
 })
 
 router.get('/update-answer/:id', function(request, response) {
-  const id = request.params.id
-  request.session.token = Math.random()
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
+    request.session.token = Math.random()
 
-  //TODO if u are loggedin
-  faqHandler.getFaqId(id, function(error, faqs) {
-    const model = {
-      faqs: faqs,
-      token: request.session.token
-    }
-    response.render('faqPanel.hbs', model)
-  })
+    faqHandler.getFaqId(id, function(error, faqs) {
+      const model = {
+        faqs: faqs,
+        token: request.session.token
+      }
+      response.render('faqPanel.hbs', model)
+    })
+  } else
+  response.send('Not authorized to update FaQ, please login')
 })
 
 router.post('/update-answer/:id', function(request, response) {
-  const id = request.params.id
-  const question = request.body.question
-  const answer = request.body.answer
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
+    const question = request.body.question
+    const answer = request.body.answer
 
-  if(request.session.token == request.body.token) {
-    console.log("IM IN FAQ UPDATE ANSWER")
-    faqHandler.updateFaq(id, question, answer, function(error) {
-      response.redirect('/about')
-    })
-  } else
+    if(request.session.token == request.body.token) {
+      faqHandler.updateFaq(id, question, answer, function(error) {
+        response.redirect('/about')
+      })
+    } else
     response.send('Unsuccessfully updated answer, you might not intentelly send this request')
+
+  } else
+  response.send('Not authorized to update FaQ, please login')
 })
 
 router.get('/delete-faq/:id', function(request, response) {
-  const id = request.params.id
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
 
-  faqHandler.deleteFaq(id, function(error) {
-    response.redirect('/about')
-  })
+    faqHandler.deleteFaq(id, function(error) {
+      response.redirect('/about')
+    })
+  } else
+  response.send('Not authorized to delete FaQ, please login')
 })
 
 

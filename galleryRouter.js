@@ -23,14 +23,17 @@ const multerConfig = {
 };
 
 router.post('/', multer(multerConfig).single('photo'), function(req,res){
-  if(req.session.token == req.body.token) {
-    res.send('Complete! Image uploaded to folder')
-    galleryHandler.uploadImageToTable(req, function(error) {
-    })
-  }
-  else {
-    res.redirect('/about')
-  }
+  if(req.session.isLoggedIn) {
+    if(req.session.token == req.body.token) {
+      res.send('Complete! Image uploaded to folder')
+      galleryHandler.uploadImageToTable(req, function(error) {
+      })
+    }
+    else {
+      res.redirect('/about')
+    }
+  } else
+  res.send('Not authorized to post images, please login')
 })
 
 router.get('/',
@@ -50,31 +53,39 @@ function(request, response) {
 })
 
 router.get('/updategallery/:id', function(request, response) {
-  const id = request.params.id
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
 
-  galleryHandler.getImageId(id, function(error, imageTable) {
-    const model = {
-      imageTable: imageTable
-    }
-    response.render('updategallery.hbs', model)
-  })
+    galleryHandler.getImageId(id, function(error, imageTable) {
+      const model = {
+        imageTable: imageTable
+      }
+      response.render('updategallery.hbs', model)
+    })
+  } else
+  response.send('Not authorized to update images, please login')
 })
 
 router.post('/updategallery/:id', multer(multerConfig).single('photo'), function(request, response) {
-  const id = request.params.id
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
 
-  galleryHandler.updateImage(request, id, function(error) {
-    response.redirect('/gallery')
-  })
+    galleryHandler.updateImage(request, id, function(error) {
+      response.redirect('/gallery')
+    })
+  } else
+  response.send('Not authorized to update images, please login')
 })
 
 router.get('/deletegallery/:id', function(request, response) {
-  const id = request.params.id
+  if(request.session.isLoggedIn) {
+    const id = request.params.id
 
-  galleryHandler.deleteImage(id, function(error) {
-    response.redirect('/gallery')
-  })
-
+    galleryHandler.deleteImage(id, function(error) {
+      response.redirect('/gallery')
+    })
+  } else
+  response.send('Not authorized to delete images, please login')
 })
 
 module.exports = router
