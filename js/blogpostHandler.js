@@ -42,7 +42,7 @@ exports.updatePost = function(id, newPost, newTitle, callback) {
 }
 
 exports.deletePost = function(id, callback) {
-  const query = 'DELETE FROM postTabl WHERE id = ?'
+  const query = 'DELETE FROM postTable WHERE id = ?'
   const value = [id]
 
   db.run(query, value, function(error) {

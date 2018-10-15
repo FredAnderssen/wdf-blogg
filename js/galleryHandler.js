@@ -59,10 +59,3 @@ exports.deleteImage = function(id, callback) {
     })
   })
 }
-
-//TODO delete this test func
-db.serialize(function () {
-  db.each('SELECT * FROM imageTable', function(err, table) {
-    console.log(table)
-  })
-})

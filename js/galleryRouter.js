@@ -4,9 +4,6 @@ const multer = require('multer')
 
 var router = express.Router()
 
-/**
-* Multer
-**/
 const multerConfig = {
   storage: multer.diskStorage({
     destination: function(req, file, next){
@@ -19,7 +16,7 @@ const multerConfig = {
       next(null, file.fieldname + '-' + Date.now() + '.'+ext)
     }
   }),
-  //TODO fix so only images can be uploaded
+
 };
 
 router.post('/', multer(multerConfig).single('photo'), function(req,res){

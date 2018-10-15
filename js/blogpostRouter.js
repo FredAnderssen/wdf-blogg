@@ -58,11 +58,8 @@ router.post('/updatepost/:id', function(request, response) {
     } else
     response.send('Unsuccessfully updated blogpost, you might not intentelly send this request')
 
-  } else {
+  } else
     response.redirect("/")
-  }
-
-
 })
 
 router.get('/deletepost/:id', function(request, response) {

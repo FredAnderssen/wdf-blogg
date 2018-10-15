@@ -67,12 +67,11 @@ router.get('/delete-faq/:id', function(request, response) {
     faqHandler.deleteFaq(id, function(error) {
       if(error)
       response.send(error)
+      else
       response.redirect('/about')
     })
   } else
   response.send('Not authorized to delete FaQ, please login')
 })
-
-
 
 module.exports = router

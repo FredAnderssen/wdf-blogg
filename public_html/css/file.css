@@ -53,12 +53,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .hero-section {
   background-color: #121212; }
 
-.blogpost-section {
-  height: 2300px; }
-  .blogpost-section li {
-    list-style-type: none; }
-    .blogpost-section li h2 {
-      color: #fafafa; }
+.blogpost-section li {
+  list-style-type: none; }
+  .blogpost-section li h2 {
+    color: #fafafa; }
 
 /*
 * Gallery page

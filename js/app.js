@@ -40,7 +40,6 @@ app.use('/about/faq', faqRouter)
 
 app.set('partialsDir', 'views/partials/')
 
-
 app.get("/about", function(request, response) {
   const isLoggedIn = request.session.isLoggedIn
   request.session.token = Math.random()
@@ -58,7 +57,6 @@ app.get("/about", function(request, response) {
   })
 })
 
-//TODO implement authentication to answer faqs and comment blogposts
 app.post('/login', function(request, response) {
   if(request.session.token == request.body.token) {
     const username = request.body.username
@@ -86,7 +84,7 @@ app.post('/login', function(request, response) {
     '/contact',
     function(request, response)
     {
-      response.render('./contact.hbs')
+      response.render('contact.hbs')
       response.status(200)
     }
   )
@@ -104,7 +102,7 @@ app.post('/login', function(request, response) {
         isLoggedIn: isLoggedIn,
         token: request.session.token
       }
-      response.render("index.hbs", model)
+      response.render("./index.hbs", model)
     })
   })
 
