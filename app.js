@@ -23,19 +23,11 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', express.static(__dirname + '/public'))
 app.use(cookieParser())
 
-/**
-* Cookie and Sessions
-**/
-
 app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: 'ahsgahsfq'
 }))
-
-/**
-* Routers
-**/
 
 const blogpostRouter = require('./blogpostRouter')
 app.use('/blogpost', blogpostRouter)
@@ -48,11 +40,15 @@ app.use('/about/faq', faqRouter)
 
 app.set('partialsDir', 'views/partials/')
 
+
 app.get("/about", function(request, response) {
   const isLoggedIn = request.session.isLoggedIn
   request.session.token = Math.random()
 
   faqHandler.getAllFaqs(function(error, faqs) {
+    if(error)
+    response.send("Internal server error, we are working on fixing it <br> <br>" + error)
+
     const model = {
       faqs: faqs,
       isLoggedIn: isLoggedIn,
@@ -64,18 +60,20 @@ app.get("/about", function(request, response) {
 
 //TODO implement authentication to answer faqs and comment blogposts
 app.post('/login', function(request, response) {
-  const username = request.body.username
-  const password = request.body.password
+  if(request.session.token == request.body.token) {
+    const username = request.body.username
+    const password = request.body.password
 
-  if (username == "abc@com" && bcrypt.compareSync(password,
-    "$2b$10$ohyAZoU4gmAvbF2PeLZzYObWLBlLjY5mvS.frjmUkMrpN.RElF7rS")) {
-      request.session.isLoggedIn = true
-      console.log("Successfully logged in")
-      response.redirect("/")
+    if (username == "peterlarsson@kungar.se" && bcrypt.compareSync(password,
+      "$2b$10$ohyAZoU4gmAvbF2PeLZzYObWLBlLjY5mvS.frjmUkMrpN.RElF7rS")) {
+        request.session.isLoggedIn = true
+        console.log("Successfully logged in")
+        response.redirect("/")
 
-    } else {
-      console.log("Login attempt failed")
-      response.redirect("/")
+      } else {
+        console.log("Login attempt failed")
+        response.redirect("/")
+      }
     }
   })
 
@@ -98,6 +96,9 @@ app.post('/login', function(request, response) {
     request.session.token = Math.random()
 
     blogpostHandler.getAllPosts(function(error, postTable) {
+      if(error)
+      response.send("Internal server error, we are working on fixing it <br> <br>" + error)
+
       const model = {
         postTable: postTable,
         isLoggedIn: isLoggedIn,
@@ -109,5 +110,4 @@ app.post('/login', function(request, response) {
 
   app.listen(8080, function() {
     console.log("Web application up and running, listening on port 8080.")
-    console.log("  ")
   })

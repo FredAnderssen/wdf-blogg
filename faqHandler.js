@@ -44,10 +44,3 @@ exports.deleteFaq = function(id, callback) {
     callback(error)
   })
 }
-
-//test print TABLE faqs console
-db.serialize(function () {
-  db.each('SELECT * FROM faqs', function(err, table) {
-    console.log(table)
-  })
-})

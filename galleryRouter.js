@@ -27,6 +27,8 @@ router.post('/', multer(multerConfig).single('photo'), function(req,res){
     if(req.session.token == req.body.token) {
       res.send('Complete! Image uploaded to folder')
       galleryHandler.uploadImageToTable(req, function(error) {
+        if(error)
+        res.send(error)
       })
     }
     else {
@@ -42,6 +44,9 @@ function(request, response) {
   const isLoggedIn = request.session.isLoggedIn
 
   galleryHandler.getImagesFromTable(4, 20, function(error, imageTable) {
+    if(error)
+    response.send("Internal server error, we are working on fixing it <br> <br>" + error)
+
     const model = {
       isLoggedIn: isLoggedIn,
       imageTable: imageTable,
@@ -57,6 +62,8 @@ router.get('/updategallery/:id', function(request, response) {
     const id = request.params.id
 
     galleryHandler.getImageId(id, function(error, imageTable) {
+      if(error)
+      response.send(error)
       const model = {
         imageTable: imageTable
       }
@@ -71,6 +78,8 @@ router.post('/updategallery/:id', multer(multerConfig).single('photo'), function
     const id = request.params.id
 
     galleryHandler.updateImage(request, id, function(error) {
+      if(error)
+      response.send(error)
       response.redirect('/gallery')
     })
   } else
@@ -82,6 +91,8 @@ router.get('/deletegallery/:id', function(request, response) {
     const id = request.params.id
 
     galleryHandler.deleteImage(id, function(error) {
+      if(error)
+      response.send(error)
       response.redirect('/gallery')
     })
   } else

@@ -10,9 +10,10 @@ router.post('/createpost', function(request, response) {
 
     if(request.session.token == request.body.token) {
       blogpostHandler.createPost(post, title, function(error) {
-        response.redirect('/')
         if(error)
         response.send(error)
+        else
+        response.redirect('/')
       })
     } else {
       response.send('Unsuccessfully created blogpost, you might not intentelly send this request')
@@ -27,6 +28,9 @@ router.get('/updatepost/:id', function(request, response) {
     request.session.token = Math.random()
 
     blogpostHandler.getPostId(id, function(error, blogpost) {
+      if(error)
+      response.send(error)
+
       const model = {
         blogpost: blogpost,
         token: request.session.token
@@ -46,6 +50,9 @@ router.post('/updatepost/:id', function(request, response) {
 
     if(request.session.token == request.body.token) {
       blogpostHandler.updatePost(id, post, title, function(error) {
+        if(error)
+        response.send(error)
+        else
         response.redirect('/')
       })
     } else
@@ -63,6 +70,9 @@ router.get('/deletepost/:id', function(request, response) {
     const id = request.params.id
 
     blogpostHandler.deletePost(id, function(error) {
+      if(error)
+      response.send(error)
+      else
       response.redirect('/')
     })
   } else

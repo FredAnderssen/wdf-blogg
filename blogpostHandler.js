@@ -8,8 +8,6 @@ exports.createPost = function(post, title, callback) {
   const query = 'INSERT INTO postTable (comment, title) VALUES (?, ?)'
   const values = [post, title]
 
-  //errHandler.printTest(callback)
-
   db.run(query, values, function(error) {
     callback(error)
   })
@@ -44,7 +42,7 @@ exports.updatePost = function(id, newPost, newTitle, callback) {
 }
 
 exports.deletePost = function(id, callback) {
-  const query = 'DELETE FROM postTable WHERE id = ?'
+  const query = 'DELETE FROM postTabl WHERE id = ?'
   const value = [id]
 
   db.run(query, value, function(error) {
